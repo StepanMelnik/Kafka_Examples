@@ -4,6 +4,7 @@
 /.settings/
 /.checkstyle
 /.gradle
+/KafkaPlain.log
 /gradle
 /target/
 /bin/

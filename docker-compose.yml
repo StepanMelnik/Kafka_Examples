@@ -1,4 +1,4 @@
-# Check kafka images: sudo docker images = a | grep kafka
+# Check kafka images: sudo docker images -a | grep kafka
 # Stop docker if needed: sudo docker stop --time=30 kafka  
 
 # Check all running containers: sudo docker container ls | grep kafka
