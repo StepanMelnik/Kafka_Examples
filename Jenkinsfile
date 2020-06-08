@@ -15,8 +15,8 @@ pipeline {
 				sh "rm -f config.json> /dev/null"
 				sh '''
 					echo { >> config.json
-					echo "host" : "192.168.0.109:9092", >> config.json
-					echo "topic" : "HelloKafka" >> config.json
+					echo \\"host\\" : \\"192.168.0.109:9092\\", >> config.json
+					echo \\"topic\\" : \\"HelloKafka\\" >> config.json
 					echo } >> config.json
 				'''
 
