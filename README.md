@@ -13,14 +13,14 @@ The following parts implemened in the project:
 
 Clone and install <a href="https://github.com/StepanMelnik/Parent.git">Parent</a> project before building.
 
-### Docker
-Check Header in the Dockerfile how to create and run an image of the project.
+	### Docker
+		Check Header in the Dockerfile how to create and run an image of the project.
 
-### Maven
-> mvn clean install
+	### Maven
+		> mvn clean install
 
-### Jenkins
-Check Jenkins file.
+	### Jenkins
+		Check Jenkins file.
 
 
 ## Docker
@@ -48,7 +48,18 @@ Check more information in the header of docker-compose.yml
 
 Also the module uses Admin and Stream API of Kafka implementation to work with Topics and Streams in runtime.
 
-All of cases covered by unit tests.
+All of cases covered by unit tests. Create ''kafka-plain-java/src/main/resources/config.json'' file before running unit tests.
+
+	### Init properties
+				sh "rm -f config.json> /dev/null"
+				sh '''
+					echo { >> config.json
+					echo "host" : "192.168.0.109:9092", >> config.json
+					echo "topic" : "HelloKafka" >> config.json
+					echo } >> config.json
+				'''
+				sh "cp config.json kafka-plain-java/src/main/resources/config.json"
+
 
 ## Kafka in SpringBoot
 TODO

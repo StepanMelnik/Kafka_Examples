@@ -17,7 +17,7 @@ pipeline {
 					echo { >> config.json
 					echo "host" : "192.168.0.109:9092", >> config.json
 					echo "topic" : "HelloKafka" >> config.json
-					echo }
+					echo } >> config.json
 				'''
 
 				sh "cp config.json kafka-plain-java/src/main/resources/config.json"
