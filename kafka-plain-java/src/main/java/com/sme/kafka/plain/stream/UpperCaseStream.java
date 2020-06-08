@@ -7,33 +7,38 @@ import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 
-import com.sme.kafka.plain.Constants;
+import com.sme.kafka.plain.model.Config;
 
 /**
- * Kafka Stream builder allows to transform a messge.
+ * Kafka Stream builder allows to transform a message.
+ * <p>
+ * The current stream transforms all messages to Upper Case.
+ * </p>
  */
-public class Stream
+public class UpperCaseStream
 {
     private KafkaStreams streams;
 
-    public Stream()
+    public UpperCaseStream(Config config)
     {
-        init();
+        init(config);
     }
 
-    private void init()
+    private void init(Config config)
     {
         Properties streamsConfig = new Properties();
         streamsConfig.put(StreamsConfig.APPLICATION_ID_CONFIG, "stream-example");
-        streamsConfig.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, Constants.KAFKA_HOST);
+        streamsConfig.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, config.getHost());
 
         streamsConfig.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         streamsConfig.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
 
         StreamsBuilder builder = new StreamsBuilder();
-        builder.<String, String> stream(Constants.HELLO_TOPIC_NAME)
+        // CSOFF
+        builder.<String, String> stream(config.getTopic())
                 .mapValues(value -> value.toUpperCase())
-                .to(Constants.HELLO_TOPIC_NAME);
+                .to(config.getTopic());
+        // CSON
 
         streams = new KafkaStreams(builder.build(), streamsConfig);
         streams.start();

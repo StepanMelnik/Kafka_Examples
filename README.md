@@ -1,5 +1,27 @@
 # Kafka_Examples
-Kafka examples: Docker to start Kafka, Kafka in shell, Kafka in plain java, Kafka in SpringBoot
+Kafka examples: Docker to start Kafka, Kafka in plain java, Kafka in SpringBoot.
+
+## Description
+The project has a few examples how to start to work with <a href="https://kafka.apache.org/">Kafka</a> stream platform.
+
+The following parts implemened in the project:
+* The docker part describes how to start Zookeeper and Kafka in Docker container.
+* "Kafka in plain java" module works with Kafka API.
+* "Kafka in SpringBoot" works with Spring Boot.
+
+## Build
+
+Clone and install <a href="https://github.com/StepanMelnik/Parent.git">Parent</a> project before building.
+
+### Docker
+Check Header in the Dockerfile how to create and run an image of the project.
+
+### Maven
+> mvn clean install
+
+### Jenkins
+Check Jenkins file.
+
 
 ## Docker
 
@@ -25,6 +47,8 @@ Check more information in the header of docker-compose.yml
 "kafka-plain-java" maven module demonstrates how to work with Kafka Consumer and Producer.
 
 Also the module uses Admin and Stream API of Kafka implementation to work with Topics and Streams in runtime.
+
+All of cases covered by unit tests.
 
 ## Kafka in SpringBoot
 TODO

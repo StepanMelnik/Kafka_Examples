@@ -1,6 +1,5 @@
 package com.sme.kafka.plain.simple;
 
-import static com.sme.kafka.plain.Constants.HELLO_TOPIC_NAME;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,8 +7,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.sme.kafka.plain.ConfigLoader;
 import com.sme.kafka.plain.admin.AdminTopic;
-import com.sme.kafka.plain.stream.Stream;
+import com.sme.kafka.plain.model.Config;
+import com.sme.kafka.plain.stream.UpperCaseStream;
 
 /**
  * Integration tests of {@link SimpeConsumer} and {@link SimpeProducer}.
@@ -18,16 +19,18 @@ public class SimpleProducerConsumerTest
 {
     private SimpleConsumer simpleConsumer;
     private SimpleProducer simpleProducer;
-    private Stream stream;
+    private UpperCaseStream stream;
 
     @BeforeEach
     public void setUp()
     {
-        new AdminTopic().createTopics(asList(HELLO_TOPIC_NAME));
+        Config config = new ConfigLoader().load();
 
-        simpleConsumer = new SimpleConsumer();
-        simpleProducer = new SimpleProducer();
-        stream = new Stream();
+        new AdminTopic(config).createTopics(asList(config.getTopic()));
+
+        simpleConsumer = new SimpleConsumer(config);
+        simpleProducer = new SimpleProducer(config);
+        stream = new UpperCaseStream(config);
     }
 
     @AfterEach

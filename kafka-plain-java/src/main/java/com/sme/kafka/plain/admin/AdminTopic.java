@@ -12,7 +12,7 @@ import org.apache.kafka.clients.admin.CreateTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
-import com.sme.kafka.plain.Constants;
+import com.sme.kafka.plain.model.Config;
 
 /**
  * Works with Topic by admin API.
@@ -21,15 +21,15 @@ public class AdminTopic
 {
     private Admin adminClient;
 
-    public AdminTopic()
+    public AdminTopic(Config config)
     {
-        init();
+        init(config);
     }
 
-    private void init()
+    private void init(Config config)
     {
         Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, Constants.KAFKA_HOST);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getHost());
         adminClient = Admin.create(props);
     }
 

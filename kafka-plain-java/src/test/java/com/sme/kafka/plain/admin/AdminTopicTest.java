@@ -7,12 +7,14 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.sme.kafka.plain.ConfigLoader;
+
 /**
  * Unit tests of {@link AdminTopic}.
  */
 public class AdminTopicTest
 {
-    private final AdminTopic adminTopic = new AdminTopic();
+    private final AdminTopic adminTopic = new AdminTopic(new ConfigLoader().load());
 
     @Test
     void testList() throws Exception
