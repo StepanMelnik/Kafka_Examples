@@ -28,7 +28,7 @@ public class ConfigLoaderTest
         static
         {
             CONFIG.setHost("192.168.0.109:9092");
-            CONFIG.setTopic("HelloKafka");
+            CONFIG.setTopic("HelloKafkaTopic");
         }
     }
 }

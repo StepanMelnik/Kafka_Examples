@@ -2,24 +2,28 @@ package com.sme.kafka.plain.simple;
 
 import static java.time.Duration.ofMillis;
 import static java.util.Collections.singletonList;
-import static java.util.Spliterator.ORDERED;
-import static java.util.Spliterators.spliteratorUnknownSize;
-import static java.util.stream.StreamSupport.stream;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.CLIENT_ID_CONFIG;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG;
 
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.StreamSupport;
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.TopicPartition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +41,6 @@ import com.sme.kafka.plain.model.Config;
 class SimpleConsumer
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleConsumer.class);
-    private static final int ONE_HUNDRED = 100;
     private static final int ONE_THOUSAND = 1000;
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -56,6 +59,8 @@ class SimpleConsumer
         configProperties.put(VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
         configProperties.put(GROUP_ID_CONFIG, "1");
         configProperties.put(CLIENT_ID_CONFIG, "simple");
+        configProperties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 1);
+        configProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
 
         kafkaConsumer = new KafkaConsumer<>(configProperties);
         kafkaConsumer.subscribe(singletonList(config.getTopic()));
@@ -70,38 +75,30 @@ class SimpleConsumer
     {
         Callable<String> task = () ->
         {
-            int noMessageFound = 0;
+            ConsumerRecords<String, String> records = kafkaConsumer.poll(ofMillis(ONE_THOUSAND));
 
-            while (true)
-            {
-                ConsumerRecords<String, String> records = kafkaConsumer.poll(ofMillis(ONE_THOUSAND));
+            // Get the assigned partitions
+            Set<TopicPartition> assignedPartitions = kafkaConsumer.assignment();
 
-                // FIXME crazy code
-                if (records.isEmpty())
-                {
-                    noMessageFound++;
-                    if (noMessageFound > ONE_HUNDRED)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
+            // Seek to the end of those partitions
+            kafkaConsumer.seekToEnd(assignedPartitions);
 
-                ConsumerRecord<String, String> record = stream(spliteratorUnknownSize(records.iterator(), ORDERED), false)
-                        .findFirst()
-                        .orElseThrow(() -> new IllegalAccessException("The queue is empty"));
+            Map<TopicPartition, Long> endOffsets = kafkaConsumer.endOffsets(assignedPartitions);
+            LOGGER.debug("End offsets " + endOffsets);
 
-                LOGGER.debug("Record Key " + record.key());
-                LOGGER.debug("Record Value " + record.value());
-                LOGGER.debug("Record partition " + record.partition());
-                LOGGER.debug("Record offset " + record.offset());
-                return record.value();
-            }
+            // Now get the last message
+            records = kafkaConsumer.poll(ofMillis(ONE_THOUSAND));
 
-            return "NO_MESSAGE";
+            ConsumerRecord<String, String> record = StreamSupport.stream(Spliterators.spliteratorUnknownSize(records.iterator(), Spliterator.ORDERED), false)
+                    .skip(records.count() - 1)  // skip all except last record
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalAccessException("The queue is empty"));
+
+            LOGGER.debug("Record Key " + record.key());
+            LOGGER.debug("Record Value " + record.value());
+            LOGGER.debug("Record partition " + record.partition());
+            LOGGER.debug("Record offset " + record.offset());
+            return record.value();
         };
 
         try

@@ -44,7 +44,7 @@ public class SimpleProducerConsumerTest
     @Test
     void testSendAndGetMessage() throws Exception
     {
-        final String message = "Hello Kafka!";
+        final String message = "Hello Kafka+";
         simpleProducer.send(message);
         String actualMessage = simpleConsumer.getMessage();
         assertEquals(message.toUpperCase(), actualMessage);
