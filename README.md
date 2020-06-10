@@ -62,6 +62,20 @@ All of cases covered by unit tests. Create ''kafka-plain-java/src/main/resources
 
 
 ## Kafka in SpringBoot
-TODO
 
+The SpringBoot module works with Kafka container. 
 
+The following should be investigated before running the application:
+* List of topics described in application.yml and resolved by KafkaTopicConfiguration configuration;
+* KafkaConfiguration creates Transactional producer and uses error handler to put an OffSet instance back in the queue for recovering;
+* ArticleProducerService uses @Transactional operations;
+
+Also Pay attention on the unique events while testing:
+* Article pojo use a unique name, so producer and consumer should get the same article while sending the events.
+
+### Build
+
+Clone and install <a href="https://github.com/StepanMelnik/Parent.git">Parent</a> project before building.
+
+### Maven
+> mvn clean install

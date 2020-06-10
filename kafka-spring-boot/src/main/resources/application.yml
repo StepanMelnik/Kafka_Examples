@@ -1,0 +1,54 @@
+# Own properties
+kafka:
+#  topic:
+#    topic1: TOPIC1
+#    topic2: TOPIC2
+#    topic3: TOPIC3
+  topic-transaction: topic-transaction
+  topics:
+    - name: TOPIC1
+      partitions: 2
+      replicationFactor: 1
+    - name: TOPIC2
+      partitions: 1
+      replicationFactor: 1
+    - name: TOPIC3
+      partitions: 2
+      replicationFactor: 1
+# https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html
+server:
+   port: 9090
+   compression:
+     enabled: true
+   error:
+     path: /error
+   http2:
+     enabled: true
+   tomcat:
+      max-threads: 20
+      basedir: ./target/tomcat
+      accesslog:
+        enabled: true
+# spring-boot-autoconfigure-2.3.0.RELEASE.jar\META-INF\META-INF\spring-configuration-metadata.json
+spring:
+  kafka:
+    bootstrap-servers: 192.168.0.109:9092, 192.168.0.109:9093
+    consumer:
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      isolation-level: read_committed
+      group-id: GROUP1
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      retries: 2
+      transaction-id-prefix: TRANSACTION.
+  application:
+    name: kafka-spring-boot
+  devtools:
+    add-properties: true
+# Debug
+#debug: true
+# Allows to trace all calls: DiscoveryClient, RetryableEurekaHttpClient, Restarter, etc
+#trace: true
+      
+  
