@@ -23,6 +23,9 @@ public class Config
      * </pre>
      */
     private String topic;
+    private String schemaRegistryUrl;
+    private String kSqlDbServerHost;
+    private int kSqlDbServerPort;
 
     public String getHost()
     {
@@ -42,6 +45,36 @@ public class Config
     public void setTopic(String topic)
     {
         this.topic = topic;
+    }
+
+    public String getSchemaRegistryUrl()
+    {
+        return schemaRegistryUrl;
+    }
+
+    public void setSchemaRegistryUrl(String schemaRegistryUrl)
+    {
+        this.schemaRegistryUrl = schemaRegistryUrl;
+    }
+
+    public String getkSqlDbServerHost()
+    {
+        return kSqlDbServerHost;
+    }
+
+    public void setkSqlDbServerHost(String kSqlDbServerHost)
+    {
+        this.kSqlDbServerHost = kSqlDbServerHost;
+    }
+
+    public int getkSqlDbServerPort()
+    {
+        return kSqlDbServerPort;
+    }
+
+    public void setkSqlDbServerPort(int kSqlDbServerPort)
+    {
+        this.kSqlDbServerPort = kSqlDbServerPort;
     }
 
     @Override

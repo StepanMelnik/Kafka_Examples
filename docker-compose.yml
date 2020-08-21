@@ -11,7 +11,7 @@
 # Stop a cluster: sudo docker-compose stop
 
 # Make kafka.sh executable: sudo chmod +x kafka-shell.sh
-# Connect to kafka by sh: sudo sh ./kafka-shell.sh 192.168.0.199 192.168.0.199:2181
+# Connect to kafka by sh: sudo sh ./kafka-shell.sh 192.168.0.109 192.168.0.109:2181
 # open KAFKA_HOME: cd /opt/kafka
 # KAFKA_HOME config: cd /opt/kafka/config
 version: '3.8'

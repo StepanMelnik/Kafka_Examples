@@ -1,0 +1,4 @@
+# connect
+sudo docker exec -it ksqldb-cli ksql http://ksqldb-server:8088
+
+or: sudo docker exec -it ksqldb-cli ksql http://192.168.0.109:8088

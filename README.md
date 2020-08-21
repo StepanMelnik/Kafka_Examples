@@ -9,6 +9,26 @@ The following parts implemened in the project:
 * "Kafka in plain java" module works with Kafka API.
 * "Kafka in SpringBoot" works with Spring Boot.
 
+
+### Kafka in plain java" module covers the following cases by unit tests:
+
+**Kafka Stream**
+
+Kafka stream tests work with the cases:
+* transformation, window stream
+* joining, processing
+* SerDe with json object
+
+**Kafka Schema**
+
+Kafka Schema shows how to work with Avro schema server. All details described in Readme.txt.
+
+**KSql DB**
+
+KSql works with Ksql DB server by java api.
+More description see in NativeOperations.txt, Operations.txt, RestOperations.txt, Readme.txt
+
+
 ## Build
 
 Clone and install <a href="https://github.com/StepanMelnik/Parent.git">Parent</a> project before building.

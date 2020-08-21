@@ -1,0 +1,11 @@
+POST: http://192.168.0.109:8088/ksql
+
+Accept:application/vnd.ksql.v1+json
+Content-Type:application/vnd.ksql.v1+json
+
+{
+  "ksql": "SHOW ALL TOPICS;",
+  "streamsProperties": {
+    "ksql.streams.auto.offset.reset": "earliest"
+  }
+}

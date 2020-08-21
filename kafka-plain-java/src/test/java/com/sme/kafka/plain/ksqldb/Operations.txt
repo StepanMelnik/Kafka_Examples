@@ -1,0 +1,87 @@
+https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/quick-reference/
+
+SELECT * FROM myTable EMIT CHANGES
+
+# No results from SELECT * FROM table or stream?
+SET 'auto.offset.reset' = 'earliest';
+
+# select
+SELECT column_name(s) AS column_alias
+  FROM stream_name | table_name
+  WHERE condition          
+    AND|OR condition
+    
+#between    
+WHERE expression [NOT] BETWEEN start_expression AND end_expression;
+
+# case
+SELECT
+  CASE
+    WHEN condition THEN result
+    [ WHEN … THEN … ]
+    …
+    [ WHEN … THEN … ]
+    [ ELSE result ]
+  END
+FROM stream_name | table_name;
+
+# cast
+CAST (expression AS data_type);
+
+# create connector
+CREATE SOURCE | SINK CONNECTOR connector_name
+  WITH( property_name = expression [, ...]);
+  
+# CREATE STREAM
+CREATE STREAM stream_name ( { column_name data_type [KEY] } [, ...] 
+  WITH ( property_name = expression [, ...] );
+  
+#CREATE STREAM AS SELECT
+CREATE STREAM stream_name
+  [WITH ( property_name = expression [, ...] )]
+  AS SELECT  select_expr [, ...]
+  FROM from_stream
+  [[ LEFT | FULL | INNER ] JOIN [join_table | join_stream]
+    [ WITHIN [(before TIMEUNIT, after TIMEUNIT) | N TIMEUNIT] ]
+    ON join_criteria]* 
+  [ WHERE condition ]
+  [PARTITION BY column_name]
+  EMIT CHANGES;
+  
+ # CREATE TABLE
+ CREATE TABLE table_name ( { column_name data_type (PRIMARY KEY) } [, ...] )
+  WITH ( property_name = expression [, ...] );
+  
+# Drop
+DROP CONNECTOR connector_name;
+DROP STREAM [IF EXISTS] stream_name [DELETE TOPIC];
+DROP TABLE [IF EXISTS] table_name [DELETE TOPIC];
+
+# execution plan
+EXPLAIN (sql_expression | query_id);
+
+# FULL JOIN
+SELECT column_name(s)
+  FROM stream_name1 | table_name1
+   FULL JOIN stream_name2 | table_name2
+   ON <stream_name1|table_name1>.column_name=<stream_name2|table_name2>.column_name
+   
+# GROUP BY, HAVING
+ELECT column_name, aggregate_function(column_name)
+  FROM table_name
+  WHERE column_name operator value
+  GROUP BY column_name
+  HAVING aggregate_function(column_name) operator value
+  
+# INNER JOIN  
+ SELECT column_name(s)
+  FROM stream_name1 | table_name1
+   INNER JOIN stream_name2 | table_name2
+   ON <stream_name1|table_name1>.column_name=<stream_name2|table_name2>.column_name 
+  
+# Insert
+INSERT INTO stream_name|table_name [(column_name [, ...]])]
+  VALUES (value [,...]);
+  
+       
+       

@@ -51,6 +51,20 @@
             <url>http://repository.sme.com:8081/repository/maven-internal-snapshot/</url>
         </snapshotRepository>
     </distributionManagement>
+    
+    <!-- Configured in local nexus repo: http://192.168.0.108:8081/#admin/repository/repositories -->
+    <!--repositories>
+        <repository>
+            <id>ksqlDB</id>
+            <name>ksqlDB</name>
+            <url>https://ksqldb-maven.s3.amazonaws.com/maven/</url>
+        </repository>
+        <repository>
+            <id>confluent</id>
+            <name>Confluent</name>
+            <url>https://jenkins-confluent-packages-beta-maven.s3.amazonaws.com/6.1.0-beta200715032424/1/maven/</url>
+        </repository>
+    </repositories-->
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

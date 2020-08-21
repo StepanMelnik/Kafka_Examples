@@ -14,11 +14,26 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
+
         <kafka.version>2.5.0</kafka.version>
+        <avro.version>1.9.1</avro.version>
+        <confluent.version>5.3.0</confluent.version>
+        <ksqldb.version>0.11.0</ksqldb.version>
+        <gson.version>2.2.4</gson.version>
         <slf4j.version>1.7.30</slf4j.version>
         <jackson.version>2.10.3</jackson.version>
     </properties>
+    
+    <pluginRepositories>
+        <pluginRepository>
+            <id>ksqlDB</id>
+            <url>https://ksqldb-maven.s3.amazonaws.com/maven/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>confluent</id>
+            <url>https://jenkins-confluent-packages-beta-maven.s3.amazonaws.com/6.1.0-beta200715032424/1/maven/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
@@ -34,7 +49,46 @@
             <artifactId>kafka-streams</artifactId>
             <version>${kafka.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-streams-examples -->
+        <!--dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams-examples</artifactId>
+            <version>2.6.0</version>
+        </dependency-->
         
+        <!-- avro -->
+        <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+            <version>${avro.version}</version>
+        </dependency>
+        
+        <!-- io.confluent -->
+        <!-- https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer -->
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-avro-serializer</artifactId>
+            <version>${confluent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-schema-registry-client</artifactId>
+            <version>${confluent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-streams-avro-serde</artifactId>
+            <version>${confluent.version}</version>
+        </dependency>
+        
+        <!-- ksqldb -->
+        <dependency>
+            <groupId>io.confluent.ksql</groupId>
+            <artifactId>ksqldb-api-client</artifactId>
+            <version>${ksqldb.version}</version>
+        </dependency>        
+            
         <!-- https://mvnrepository.com/artifact/org.slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -59,6 +113,13 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+    
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>29.0-jre</version>
         </dependency>
     
         <!-- Test -->
