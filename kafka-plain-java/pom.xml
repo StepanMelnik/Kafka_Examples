@@ -21,7 +21,7 @@
         <ksqldb.version>0.11.0</ksqldb.version>
         <gson.version>2.2.4</gson.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <jackson.version>2.10.3</jackson.version>
+        <jackson.version>2.12.7.1</jackson.version>
     </properties>
     
     <pluginRepositories>
